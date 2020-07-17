@@ -1,0 +1,22 @@
+[  0%] Built target trajectory_msgs_generate_messages_lisp
+[  0%] Built target moveit_msgs_generate_messages_lisp
+[  0%] Built target geometry_msgs_generate_messages_lisp
+[  0%] Built target std_msgs_generate_messages_lisp
+Traceback (most recent call last):
+  File "/opt/ros/melodic/share/genmsg/cmake/../../../lib/genmsg/genmsg_check_deps.py", line 54, in <module>
+    spec = load_msg_from_file(msg_context, msg_file, full_type_name)
+  File "/opt/ros/melodic/lib/python2.7/dist-packages/genmsg/msg_loader.py", line 289, in load_msg_from_file
+    raise InvalidMsgSpec('%s: %s'%(file_path, e))
+genmsg.base.InvalidMsgSpec: /home/aman/hrwros_ws/src/hrwros/hrwros_msgs/msg/SensorInformation.msg: sensor_data->->-> is not a legal message field name
+CMakeFiles/_hrwros_msgs_generate_messages_check_deps_SensorInformation.dir/build.make:57: recipe for target 'CMakeFiles/_hrwros_msgs_generate_messages_check_deps_SensorInformation' failed
+make[2]: *** [CMakeFiles/_hrwros_msgs_generate_messages_check_deps_SensorInformation] Error 1
+make[1]: *** [CMakeFiles/_hrwros_msgs_generate_messages_check_deps_SensorInformation.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+CMakeFiles/Makefile2:467: recipe for target 'CMakeFiles/_hrwros_msgs_generate_messages_check_deps_SensorInformation.dir/all' failed
+[  0%] Built target _hrwros_msgs_generate_messages_check_deps_CounterWithDelayAction
+[  0%] Built target _hrwros_msgs_generate_messages_check_deps_CounterWithDelayGoal
+[  0%] Built target _hrwros_msgs_generate_messages_check_deps_CounterWithDelayResult
+[  0%] Built target _hrwros_msgs_generate_messages_check_deps_CounterWithDelayFeedback
+[  0%] Built target _hrwros_msgs_generate_messages_check_deps_RobotTrajectories
+Makefile:140: recipe for target 'all' failed
+make: *** [all] Error 2
