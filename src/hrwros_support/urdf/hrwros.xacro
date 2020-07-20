@@ -60,9 +60,13 @@
   </joint>
  <link name="robot2_pedestral_link">
   <visual>
+   <origin xyz="0 0 0.3"/>
     <geometry>
-     <box size="1 1 1" />
+     <box size = "0.3 0.3 0.6"/>
     </geometry>
+    <material name= 'robot2_pedestal_color'>
+     <color rgba="0 0.16 0.53 1"/>
+    </material>
   </visual>
  </link>
 
