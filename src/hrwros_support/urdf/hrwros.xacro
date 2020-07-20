@@ -25,10 +25,6 @@
   <!-- bins -->
   <xacro:include filename="$(find hrwros_support)/urdf/bin/bin.urdf.xacro"/>
   <xacro:bin_urdf prefix="bin_1_"/>
-  <xacro:bin_urdf prefix="bin_2_"/>
-  <xacro:bin_urdf prefix="bin_3_"/>
-  <xacro:bin_urdf prefix="bin_4_"/>
-  <xacro:bin_urdf prefix="bin_5_"/>
 
   <!-- Joints -->
   <joint name="world_interface_to_world" type="fixed">
@@ -60,34 +56,18 @@
   <joint name="bin_1_joint" type="fixed">
     <parent link="world_interface" />
     <child link="bin_1_base_link" />
-    <origin xyz="-0.3 1.2 0.0" rpy="0 0 0" />
+    <origin xyz="-8.0 -2.2 0.0" rpy="0 0 0" />
   </joint>
+ <link name="robot2_pedestral_link">
+  <visual>
+    <geometry>
+     <box size="1 1 1" />
+    </geometry>
+  </visual>
+ </link>
 
-  <!-- bin 2 -->
-  <joint name="bin_2_joint" type="fixed">
-    <parent link="world_interface" />
-    <child link="bin_2_base_link" />
-    <origin xyz="-0.3 0.4 0.0" rpy="0 0 0" />
-  </joint>
-
-  <!-- bin 3 -->
-  <joint name="bin_3_joint" type="fixed">
-    <parent link="world_interface" />
-    <child link="bin_3_base_link" />
-    <origin xyz="-0.3 -0.4 0.0" rpy="0 0 0" />
-  </joint>
-
-  <!-- bin 4 -->
-  <joint name="bin_4_joint" type="fixed">
-    <parent link="world_interface" />
-    <child link="bin_4_base_link" />
-    <origin xyz="-0.3 -1.2 0.0" rpy="0 0 0" />
-  </joint>
-
-  <!-- bin 5 -->
-  <joint name="bin_5_joint" type="fixed">
-    <parent link="world_interface" />
-    <child link="bin_5_base_link" />
-    <origin xyz="-0.3 -2.0 0.0" rpy="0 0 0" />
-  </joint>
+ <joint name="robo2_pedestal_joint" type="fixed">
+  <parent link="world"/> 
+  <child link="robot2_pedestral_link" />
+</joint>
 </robot>
