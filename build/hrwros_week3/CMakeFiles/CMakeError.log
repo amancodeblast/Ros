@@ -1,22 +1,22 @@
 Determining if the pthread_create exist failed with the following output:
 Change Dir: /home/aman/hrwros_ws/build/hrwros_week3/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_6f7ec/fast"
-/usr/bin/make -f CMakeFiles/cmTC_6f7ec.dir/build.make CMakeFiles/cmTC_6f7ec.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_e30cd/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e30cd.dir/build.make CMakeFiles/cmTC_e30cd.dir/build
 make[1]: Entering directory '/home/aman/hrwros_ws/build/hrwros_week3/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_6f7ec.dir/CheckSymbolExists.c.o
-/usr/bin/cc    -o CMakeFiles/cmTC_6f7ec.dir/CheckSymbolExists.c.o   -c /home/aman/hrwros_ws/build/hrwros_week3/CMakeFiles/CMakeTmp/CheckSymbolExists.c
-Linking C executable cmTC_6f7ec
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6f7ec.dir/link.txt --verbose=1
-/usr/bin/cc      -rdynamic CMakeFiles/cmTC_6f7ec.dir/CheckSymbolExists.c.o  -o cmTC_6f7ec 
-CMakeFiles/cmTC_6f7ec.dir/CheckSymbolExists.c.o: In function `main':
+Building C object CMakeFiles/cmTC_e30cd.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_e30cd.dir/CheckSymbolExists.c.o   -c /home/aman/hrwros_ws/build/hrwros_week3/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_e30cd
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e30cd.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_e30cd.dir/CheckSymbolExists.c.o  -o cmTC_e30cd 
+CMakeFiles/cmTC_e30cd.dir/CheckSymbolExists.c.o: In function `main':
 CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
 collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_6f7ec.dir/build.make:97: recipe for target 'cmTC_6f7ec' failed
-make[1]: *** [cmTC_6f7ec] Error 1
+CMakeFiles/cmTC_e30cd.dir/build.make:97: recipe for target 'cmTC_e30cd' failed
+make[1]: *** [cmTC_e30cd] Error 1
 make[1]: Leaving directory '/home/aman/hrwros_ws/build/hrwros_week3/CMakeFiles/CMakeTmp'
-Makefile:126: recipe for target 'cmTC_6f7ec/fast' failed
-make: *** [cmTC_6f7ec/fast] Error 2
+Makefile:126: recipe for target 'cmTC_e30cd/fast' failed
+make: *** [cmTC_e30cd/fast] Error 2
 
 File /home/aman/hrwros_ws/build/hrwros_week3/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
 /* */
@@ -36,20 +36,20 @@ int main(int argc, char** argv)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /home/aman/hrwros_ws/build/hrwros_week3/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_b355c/fast"
-/usr/bin/make -f CMakeFiles/cmTC_b355c.dir/build.make CMakeFiles/cmTC_b355c.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_cc39d/fast"
+/usr/bin/make -f CMakeFiles/cmTC_cc39d.dir/build.make CMakeFiles/cmTC_cc39d.dir/build
 make[1]: Entering directory '/home/aman/hrwros_ws/build/hrwros_week3/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_b355c.dir/CheckFunctionExists.c.o
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_b355c.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
-Linking C executable cmTC_b355c
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b355c.dir/link.txt --verbose=1
-/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_b355c.dir/CheckFunctionExists.c.o  -o cmTC_b355c -lpthreads 
+Building C object CMakeFiles/cmTC_cc39d.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_cc39d.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_cc39d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cc39d.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_cc39d.dir/CheckFunctionExists.c.o  -o cmTC_cc39d -lpthreads 
 /usr/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_b355c.dir/build.make:97: recipe for target 'cmTC_b355c' failed
-make[1]: *** [cmTC_b355c] Error 1
+CMakeFiles/cmTC_cc39d.dir/build.make:97: recipe for target 'cmTC_cc39d' failed
+make[1]: *** [cmTC_cc39d] Error 1
 make[1]: Leaving directory '/home/aman/hrwros_ws/build/hrwros_week3/CMakeFiles/CMakeTmp'
-Makefile:126: recipe for target 'cmTC_b355c/fast' failed
-make: *** [cmTC_b355c/fast] Error 2
+Makefile:126: recipe for target 'cmTC_cc39d/fast' failed
+make: *** [cmTC_cc39d/fast] Error 2
 
 

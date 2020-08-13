@@ -6,6 +6,6 @@ moveit_setup_assistant_config:
   SRDF:
     relative_path: config/hrwros.srdf
   CONFIG:
-    author_name: Aman Sharma
-    author_email: amankrsharman3@gmail.com
-    generated_timestamp: 1596790038
+    author_name: hrwros_instructors
+    author_email: hrwros@hrwros.com
+    generated_timestamp: 1580728881
