@@ -51,10 +51,14 @@ class PickpartfromconveyorSM(Behavior):
 		pick_group = 'robot1'
 		names1 = ['robot1_shoulder_pan_joint', 'robot1_shoulder_lift_joint', 'robot1_elbow_joint', 'robot1_wrist_1_joint', 'robot1_wrist_2_joint', 'robot1_wrist_3_joint']
 		gripper1 = "vacuum_gripper1_suction_cup"
+		home1 = [1.5535, -1.588, 0.069, 1.57, -1.57, 0]
 		# x:1010 y:559, x:36 y:516
 		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'])
 		_state_machine.userdata.part_pose = []
-		_state_machine.userdata.pick_configuration = []
+		_state_machine.userdata.pick_configuration = home1
+		_state_machine.userdata.joint_names = []
+		_state_machine.userdata.home1 = home1
+		_state_machine.userdata.conveyor_speed = 100
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]

@@ -16,6 +16,7 @@ from hrwros_factory_states.locate_factory_device_state import LocateFactoryDevic
 from hrwros_factory_states.detect_part_camera_state import DetectPartCameraState
 from flexbe_states.subscriber_state import SubscriberState
 from hrwros_factory_states.moveit_to_joints_dyn_state import MoveitToJointsDynState as hrwros_factory_states__MoveitToJointsDynState
+from hrwros_factory_states.set_conveyor_power_state import SetConveyorPowerState
 # Additional imports can be added inside the following tags
 # [MANUAL_IMPORT]
 from geometry_msgs.msg import Pose2D
@@ -24,7 +25,7 @@ from geometry_msgs.msg import Pose2D
 
 
 '''
-Created on 
+Created on @author: you
 @author: you
 '''
 class FinalProjectSM(Behavior):
@@ -56,13 +57,15 @@ The three robots in the factory move to process the parts
 		pick1_group = 'robot1'
 		robot1_loc = Pose2D(x=3.8, y=2.1, theta=-90.0)
 		gripper1 = "vacuum_gripper1_suction_cup"
-		# x:31 y:236, x:594 y:345
+		pick2_group = 'robot2'
+		# x:31 y:263, x:594 y:345
 		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'])
 		_state_machine.userdata.part_pose = []
 		_state_machine.userdata.robot1_loc = robot1_loc
 		_state_machine.userdata.pose_turtlebot = []
 		_state_machine.userdata.pick1_configuration = []
 		_state_machine.userdata.place1_configuration = []
+		_state_machine.userdata.conveyor_speed = 100
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]
@@ -71,10 +74,10 @@ The three robots in the factory move to process the parts
 
 
 		with _state_machine:
-			# x:32 y:56
+			# x:24 y:109
 			OperatableStateMachine.add('Move R1 Home',
 										flexbe_manipulation_states__SrdfStateToMoveit(config_name='R1Home', move_group=pick1_group, action_topic='/move_group', robot_name=''),
-										transitions={'reached': 'Start feeder', 'planning_failed': 'failed', 'control_failed': 'failed', 'param_error': 'failed'},
+										transitions={'reached': 'Start Conveyorbelt', 'planning_failed': 'failed', 'control_failed': 'failed', 'param_error': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name', 'move_group': 'move_group', 'robot_name': 'robot_name', 'action_topic': 'action_topic', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
@@ -85,7 +88,7 @@ The three robots in the factory move to process the parts
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
 										remapping={'pose': 'part_pose', 'joint_values': 'pick1_configuration', 'joint_names': 'joint_names'})
 
-			# x:381 y:59
+			# x:382 y:109
 			OperatableStateMachine.add('Start feeder',
 										ControlFeederState(activation=True),
 										transitions={'succeeded': 'Wait for part', 'failed': 'failed'},
@@ -94,7 +97,7 @@ The three robots in the factory move to process the parts
 			# x:718 y:59
 			OperatableStateMachine.add('Stop feeder',
 										ControlFeederState(activation=False),
-										transitions={'succeeded': 'Detect Part Camera', 'failed': 'failed'},
+										transitions={'succeeded': 'Stop Conveyorbelt', 'failed': 'failed'},
 										autonomy={'succeeded': Autonomy.Off, 'failed': Autonomy.Off})
 
 			# x:1104 y:222
@@ -158,6 +161,20 @@ The three robots in the factory move to process the parts
 										transitions={'reached': 'finished', 'planning_failed': 'failed', 'control_failed': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
 										remapping={'joint_values': 'place1_configuration', 'joint_names': 'joint_names'})
+
+			# x:225 y:9
+			OperatableStateMachine.add('Start Conveyorbelt',
+										SetConveyorPowerState(stop=False),
+										transitions={'succeeded': 'Start feeder', 'failed': 'failed'},
+										autonomy={'succeeded': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'speed': 'conveyor_speed'})
+
+			# x:903 y:37
+			OperatableStateMachine.add('Stop Conveyorbelt',
+										SetConveyorPowerState(stop=True),
+										transitions={'succeeded': 'Detect Part Camera', 'failed': 'failed'},
+										autonomy={'succeeded': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'speed': 'conveyor_speed'})
 
 
 		return _state_machine
