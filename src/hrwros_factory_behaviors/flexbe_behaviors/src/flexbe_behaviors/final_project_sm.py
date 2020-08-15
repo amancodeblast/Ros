@@ -59,6 +59,7 @@ The three robots in the factory move to process the parts
 		robot1_loc = Pose2D(x=3.8, y=2.1, theta=-90.0)
 		gripper1 = "vacuum_gripper1_suction_cup"
 		pick2_group = 'robot2'
+		robot2_loc = Pose2D(x=-4.3, y=-0.9, theta=0.0)
 		# x:31 y:263, x:594 y:345
 		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'])
 		_state_machine.userdata.part_pose = []
@@ -67,6 +68,7 @@ The three robots in the factory move to process the parts
 		_state_machine.userdata.pick1_configuration = []
 		_state_machine.userdata.place1_configuration = []
 		_state_machine.userdata.conveyor_speed = 100
+		_state_machine.userdata.robot2_loc = robot2_loc
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]
@@ -184,18 +186,25 @@ The three robots in the factory move to process the parts
 										autonomy={'arrived': Autonomy.Off, 'failed': Autonomy.Off},
 										remapping={'waypoint': 'robot1_loc'})
 
-			# x:606 y:623
+			# x:673 y:663
 			OperatableStateMachine.add('Activate Gripper 1_2',
 										VacuumGripperControlState(enable=False, service_name='/gripper1/control'),
 										transitions={'continue': 'Move R1 back Home_2', 'failed': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off})
 
-			# x:367 y:574
+			# x:455 y:670
 			OperatableStateMachine.add('Move R1 back Home_2',
 										flexbe_manipulation_states__SrdfStateToMoveit(config_name='R1Home', move_group=pick1_group, action_topic='/move_group', robot_name=''),
-										transitions={'reached': 'finished', 'planning_failed': 'failed', 'control_failed': 'failed', 'param_error': 'failed'},
+										transitions={'reached': 'Navigate to robot2', 'planning_failed': 'failed', 'control_failed': 'failed', 'param_error': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name', 'move_group': 'move_group', 'robot_name': 'robot_name', 'action_topic': 'action_topic', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
+
+			# x:290 y:668
+			OperatableStateMachine.add('Navigate to robot2',
+										hrwros_factory_states__MoveBaseState(),
+										transitions={'arrived': 'finished', 'failed': 'failed'},
+										autonomy={'arrived': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'waypoint': 'robot2_loc'})
 
 
 		return _state_machine
