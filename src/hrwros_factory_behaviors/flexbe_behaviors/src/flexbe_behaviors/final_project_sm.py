@@ -60,6 +60,8 @@ The three robots in the factory move to process the parts
 		gripper1 = "vacuum_gripper1_suction_cup"
 		pick2_group = 'robot2'
 		robot2_loc = Pose2D(x=-4.3, y=-0.9, theta=0.0)
+		names2 = ['robot2_shoulder_pan_joint', 'robot2_shoulder_lift_joint', 'robot2_elbow_joint', 'robot2_wrist_1_joint', 'robot2_wrist_2_joint', 'robot2_wrist_3_joint']
+		gripper2 = "vacuum_gripper2_suction_cup"
 		# x:31 y:263, x:594 y:345
 		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'])
 		_state_machine.userdata.part_pose = []
@@ -69,6 +71,8 @@ The three robots in the factory move to process the parts
 		_state_machine.userdata.place1_configuration = []
 		_state_machine.userdata.conveyor_speed = 100
 		_state_machine.userdata.robot2_loc = robot2_loc
+		_state_machine.userdata.pick2_configuration = []
+		_state_machine.userdata.place2_configuration = []
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]
@@ -109,14 +113,14 @@ The three robots in the factory move to process the parts
 										transitions={'continue': 'Move R1 to pick', 'failed': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off})
 
-			# x:1027 y:626
+			# x:1142 y:588
 			OperatableStateMachine.add('Compute place Turtlebot',
 										ComputeGraspState(group=pick1_group, offset=0.6, joint_names=names1, tool_link=gripper1, rotation=3.1415),
 										transitions={'continue': 'Move R1 to place', 'failed': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
 										remapping={'pose': 'pose_turtlebot', 'joint_values': 'place1_configuration', 'joint_names': 'joint_names'})
 
-			# x:1199 y:565
+			# x:1136 y:516
 			OperatableStateMachine.add('LocateTurtlebot',
 										LocateFactoryDeviceState(model_name='mobile_base', output_frame_id='world'),
 										transitions={'succeeded': 'Compute place Turtlebot', 'failed': 'failed'},
@@ -130,7 +134,7 @@ The three robots in the factory move to process the parts
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name', 'move_group': 'move_group', 'robot_name': 'robot_name', 'action_topic': 'action_topic', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
-			# x:40 y:460
+			# x:0 y:455
 			OperatableStateMachine.add('Move R2 back to Home',
 										flexbe_manipulation_states__SrdfStateToMoveit(config_name='R2Home', move_group=pick2_group, action_topic='/move_group', robot_name=''),
 										transitions={'reached': 'finished', 'planning_failed': 'failed', 'control_failed': 'failed', 'param_error': 'failed'},
@@ -158,10 +162,10 @@ The three robots in the factory move to process the parts
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
 										remapping={'joint_values': 'pick1_configuration', 'joint_names': 'joint_names'})
 
-			# x:866 y:661
+			# x:1132 y:662
 			OperatableStateMachine.add('Move R1 to place',
 										hrwros_factory_states__MoveitToJointsDynState(move_group=pick1_group, offset=0.0, tool_link=gripper1, action_topic='/move_group'),
-										transitions={'reached': 'Activate Gripper 1_2', 'planning_failed': 'failed', 'control_failed': 'failed'},
+										transitions={'reached': 'Activate Gripper R1', 'planning_failed': 'failed', 'control_failed': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
 										remapping={'joint_values': 'place1_configuration', 'joint_names': 'joint_names'})
 
@@ -186,25 +190,52 @@ The three robots in the factory move to process the parts
 										autonomy={'arrived': Autonomy.Off, 'failed': Autonomy.Off},
 										remapping={'waypoint': 'robot1_loc'})
 
-			# x:673 y:663
-			OperatableStateMachine.add('Activate Gripper 1_2',
+			# x:961 y:674
+			OperatableStateMachine.add('Activate Gripper R1',
 										VacuumGripperControlState(enable=False, service_name='/gripper1/control'),
 										transitions={'continue': 'Move R1 back Home_2', 'failed': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off})
 
-			# x:455 y:670
+			# x:802 y:672
 			OperatableStateMachine.add('Move R1 back Home_2',
 										flexbe_manipulation_states__SrdfStateToMoveit(config_name='R1Home', move_group=pick1_group, action_topic='/move_group', robot_name=''),
 										transitions={'reached': 'Navigate to robot2', 'planning_failed': 'failed', 'control_failed': 'failed', 'param_error': 'failed'},
 										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off, 'param_error': Autonomy.Off},
 										remapping={'config_name': 'config_name', 'move_group': 'move_group', 'robot_name': 'robot_name', 'action_topic': 'action_topic', 'joint_values': 'joint_values', 'joint_names': 'joint_names'})
 
-			# x:290 y:668
+			# x:660 y:673
 			OperatableStateMachine.add('Navigate to robot2',
 										hrwros_factory_states__MoveBaseState(),
-										transitions={'arrived': 'finished', 'failed': 'failed'},
+										transitions={'arrived': 'Detect Part Camera_2', 'failed': 'failed'},
 										autonomy={'arrived': Autonomy.Off, 'failed': Autonomy.Off},
 										remapping={'waypoint': 'robot2_loc'})
+
+			# x:205 y:679
+			OperatableStateMachine.add('Compute pick_2',
+										ComputeGraspState(group=pick2_group, offset=0.0, joint_names=names2, tool_link=gripper2, rotation=3.1415),
+										transitions={'continue': 'Activate Gripper R2', 'failed': 'failed'},
+										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'pose': 'part_pose', 'joint_values': 'pick2_configuration', 'joint_names': 'joint_names'})
+
+			# x:26 y:638
+			OperatableStateMachine.add('Activate Gripper R2',
+										VacuumGripperControlState(enable=True, service_name='/gripper2/control'),
+										transitions={'continue': 'Move R2 to pick', 'failed': 'failed'},
+										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off})
+
+			# x:6 y:533
+			OperatableStateMachine.add('Move R2 to pick',
+										hrwros_factory_states__MoveitToJointsDynState(move_group=pick2_group, offset=0.0, tool_link=gripper2, action_topic='/move_group'),
+										transitions={'reached': 'Move R2 back to Home', 'planning_failed': 'failed', 'control_failed': 'failed'},
+										autonomy={'reached': Autonomy.Off, 'planning_failed': Autonomy.Off, 'control_failed': Autonomy.Off},
+										remapping={'joint_values': 'pick2_configuration', 'joint_names': 'joint_names'})
+
+			# x:342 y:678
+			OperatableStateMachine.add('Detect Part Camera_2',
+										DetectPartCameraState(ref_frame='robot2_base', camera_topic='/hrwros/logical_camera_2', camera_frame='logical_camera_2_frame'),
+										transitions={'continue': 'Compute pick_2', 'failed': 'failed'},
+										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'pose': 'part_pose'})
 
 
 		return _state_machine
